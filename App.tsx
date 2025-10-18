@@ -1,13 +1,24 @@
 import './global.css';
 import { StatusBar } from 'expo-status-bar';
-import { Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native';
+import { ThemeProvider, useTheme } from './src/context';
+import { AppNavigator } from './src/navigation';
+
+const AppContent: React.FC = () => {
+  const { isDark } = useTheme();
+
+  return (
+    <SafeAreaView className={`flex-1 ${isDark ? 'bg-gray-900' : 'bg-white'}`}>
+      <AppNavigator />
+      <StatusBar style={isDark ? 'light' : 'dark'} />
+    </SafeAreaView>
+  );
+};
 
 export default function App() {
   return (
-    <View className="flex-1 bg-white items-center justify-center">
-      <Text className="text-lg font-bold">Portfolio App Setup Complete!</Text>
-      <Text className="text-gray-600 mt-2">Ready for implementation</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
   );
 }
